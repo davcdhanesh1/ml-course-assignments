@@ -1,1 +1,1 @@
-A repository of class exercies for Stanford Machine learning course
+A repository of class exercises for Stanford Machine learning course
