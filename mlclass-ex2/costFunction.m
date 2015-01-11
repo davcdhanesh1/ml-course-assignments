@@ -18,24 +18,18 @@ function [J, grad] = costFunction(theta, X, y)
   %               derivatives of the cost w.r.t. each parameter in theta
   %
   % Note: grad should have the same dimensions as theta
-
-  % calculating hypotheses matrix H
-  H = zeros(m,1);
-  for i = 1:m,
-    H(i) = e.^ (theta' * X(i)) / (e.^ (theta' * X(i)) + 1);
-  end
   
   % calculating cost Function
-  T = zeros(m,1);
   for i = 1:m,
-    J = J + (-y(i) * log(H(i)) - (1 - y(i)) * log(1 - H(i)));
+    J = J + -y(i) * log(sigmoid(X(i,:) * theta)) - (1 - y(i)) * log(1 - sigmoid(X(i,:) * theta));
   end
   J = J / m;
   
+  % calculating gradient
   no_of_features = size(theta,1);
-  for j = 1:no_of_features,
-    for i = 1:m,
-      grad(j) = grad(j) + ((H(i) - y(i)) * X(i,j));
+  for j = 1:no_of_features
+    for i = 1:m
+      grad(j) = grad(j) + ((sigmoid(X(i,:) * theta)) - y(i)) * X(i,j);
     end
     grad(j) = grad(j) ./ m;
   end
