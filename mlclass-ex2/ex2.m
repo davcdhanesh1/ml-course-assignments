@@ -120,15 +120,14 @@ pause;
 %  Predict probability for a student with score 45 on exam 1 
 %  and score 85 on exam 2 
 
-%prob = sigmoid([1 45 85] * theta);
-%fprintf(['For a student with scores 45 and 85, we predict an admission ' ...
- %        'probability of %f\n\n'], prob);
+prob = sigmoid([1 45 85] * theta);
+fprintf(['For a student with scores 45 and 85, we predict an admission probability of %f\n\n'], prob);
 
 % Compute accuracy on our training set
-%p = predict(theta, X);
+  p = predict(theta, X);
 
-%fprintf('Train Accuracy: %f\n', mean(double(p == y)) * 100);
+fprintf('Train Accuracy: %f\n', mean(double(p == y)) * 100);
 
-%fprintf('\nProgram paused. Press enter to continue.\n');
-%pause;
+fprintf('\nProgram paused. Press enter to continue.\n');
+pause;
 
