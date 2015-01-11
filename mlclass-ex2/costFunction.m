@@ -26,12 +26,9 @@ function [J, grad] = costFunction(theta, X, y)
   J = J / m;
   
   % calculating gradient
-  no_of_features = size(theta,1);
-  for j = 1:no_of_features
-    for i = 1:m
-      grad(j) = grad(j) + ((sigmoid(X(i,:) * theta)) - y(i)) * X(i,j);
-    end
-    grad(j) = grad(j) ./ m;
+  for i = 1:m
+    grad = grad + ((sigmoid(X(i,:) * theta)) - y(i)) * X(i,:)';
   end
+  grad = grad ./ m;
   
 end
