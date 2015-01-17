@@ -23,7 +23,7 @@ function [J, grad] = costFunction(theta, X, y)
   J = log(sigmoid(X * theta))' * (-y) - (log(1 - sigmoid(X * theta)))' * (1 - y) ;
   J = J / m;
   
-  % calculating gradient
+  % calculating gradient i.e partial derivatives of theta
   grad = X' * (sigmoid(X * theta) - y);
   grad = grad ./ m;
   
