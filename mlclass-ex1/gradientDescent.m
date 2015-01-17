@@ -20,7 +20,7 @@ J_history = zeros(num_iters, 1);
       % Save the cost J in every iteration
 
       H = X * theta;
-      delta = (1/m) * ((H - y)' * X)';
+      delta = (1/m) * ( X' * ( H - y ) );
       theta = theta - delta .* alpha;
       J_history(iter) = computeCost(X, y, theta);
   end
