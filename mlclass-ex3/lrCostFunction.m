@@ -42,5 +42,5 @@ J = (1 / m) * (J + (lambda / 2 ) * (sum( theta .^ 2 )));
 
 grad = X' * (sigmoid(X * theta) - y);
 grad = (grad + theta .* lambda)./ m;
-grad = grad(:);
+
 end

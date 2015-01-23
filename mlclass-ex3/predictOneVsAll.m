@@ -28,15 +28,10 @@ X = [ones(m, 1) X];
 %       max element, for more information see 'help max'. If your examples 
 %       are in rows, then, you can use max(A, [], 2) to obtain the max 
 %       for each row.
-%       
-
-
-
-
-
-
-
+%      
 % =========================================================================
-
-
+  
+  temp = sigmoid(X * all_theta');
+  [MaxValue, Index] = max(temp, [], 2);
+  p = Index;
 end
