@@ -30,7 +30,13 @@ J = 0;
 Theta1_grad = zeros(size(Theta1));
 Theta2_grad = zeros(size(Theta2));
 
-% ====================== YOUR CODE HERE ======================
+Y = zeros(5000,10);
+for i = 1:size(Y,1)
+  Y(i,y(i)) = 1;
+end 
+
+
+% ====================== YOUR CODE HERE ==================================================
 % Instructions: You should complete the code by working through the
 %               following parts.
 %
@@ -60,29 +66,47 @@ Theta2_grad = zeros(size(Theta2));
 %               backpropagation. That is, you can compute the gradients for
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
-%
+% =========================================================================================
 
 
+% Calculating forward feed propagation
 
+layer1BaseUnit = ones(size(X,1),1);
+layer1 = [layer1BaseUnit X]; % input layer
 
+layer2 = sigmoid(layer1 * (Theta1)');
+layer2BaseUnit = ones(size(layer2,1), 1);
+layer2 = [layer2BaseUnit layer2]; % hidden layer
 
+layer3 = sigmoid(layer2 * (Theta2)'); % output layer
 
+% Calculating cost function of all labels
 
+J = zeros(size(num_labels,1));
+for k = 1:num_labels 
+   J(k) = (-1) * Y(:,k)' * log(layer3(:,k)) - (1 - Y(:,k)') * log(1 - layer3(:,k));
+end
+J = sum(J) / m;
 
+% chopping of bias unit from each layer for calculating regularization factor
+Theta1 = Theta1(:,2:end);
+Theta2 = Theta2(:,2:end);
 
+factor1 = 0;
+factor2 = 0;
+for j = 1:hidden_layer_size
+  for k = 1:input_layer_size
+    factor1 = factor1 + Theta1(j,k).^2;
+  end
+end
+for j = 1:num_labels
+  for k = 1:hidden_layer_size
+    factor2 = factor2 + Theta2(j,k).^2;
+  end
+end  
+regularization_factor = (lambda / ( 2 * m)) * (factor1 + factor2);
 
-
-
-
-
-
-
-
-
-
-% -------------------------------------------------------------
-
-% =========================================================================
+J = J + regularization_factor;
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
