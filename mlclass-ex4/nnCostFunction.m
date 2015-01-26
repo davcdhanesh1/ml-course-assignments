@@ -30,7 +30,7 @@ J = 0;
 Theta1_grad = zeros(size(Theta1));
 Theta2_grad = zeros(size(Theta2));
 
-Y = zeros(5000,10);
+Y = zeros(size(y,1),num_labels);
 for i = 1:size(Y,1)
   Y(i,y(i)) = 1;
 end 
@@ -71,17 +71,21 @@ end
 
 % Calculating forward feed propagation
 
+% activation a1, input layer
 layer1BaseUnit = ones(size(X,1),1);
-layer1 = [layer1BaseUnit X]; % input layer
+layer1 = [layer1BaseUnit X]; 
 
-layer2 = sigmoid(layer1 * (Theta1)');
+% activation a2, hidden layer
+Z2 = layer1 * (Theta1)';
+layer2 = sigmoid(Z2);
 layer2BaseUnit = ones(size(layer2,1), 1);
-layer2 = [layer2BaseUnit layer2]; % hidden layer
+layer2 = [layer2BaseUnit layer2]; 
 
-layer3 = sigmoid(layer2 * (Theta2)'); % output layer
+% activation a3, output layer
+Z3 = layer2 * (Theta2)';
+layer3 = sigmoid(Z3);
 
 % Calculating cost function of all labels
-
 J = zeros(size(num_labels,1));
 for k = 1:num_labels 
    J(k) = (-1) * Y(:,k)' * log(layer3(:,k)) - (1 - Y(:,k)') * log(1 - layer3(:,k));
@@ -109,6 +113,16 @@ regularization_factor = (lambda / ( 2 * m)) * (factor1 + factor2);
 J = J + regularization_factor;
 
 % Unroll gradients
+for i = 1:m
+  delta3 = layer3(i,:) - Y(i,:);
+  Theta2_grad = Theta2_grad + delta3' * layer2(i,:);
+  delta2 = (delta3 * Theta2) .* sigmoidGradient(Z2(i,:));
+  Theta1_grad = Theta1_grad + delta2' * layer1(i,:);
+end
+
+Theta1_grad = (1 / m) * Theta1_grad + (lambda / m ) * [zeros(size(Theta1,1),1), Theta1];
+Theta2_grad = (1 / m) * Theta2_grad + (lambda / m ) * [zeros(size(Theta2,1),1), Theta2];
+
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
 
 
